@@ -212,7 +212,7 @@
 **5 -** Diseña un programa que siga el siguiente proceso:
 - Pedir por teclado tres números.
 - Si el primero es negativo, debe sumar los otros dos
-- Sino multiplicará los tres numeros
+- Si no multiplicará los tres numeros
 - Mostrar el resultado final incluyendo una referencia a la operación realizada.
 ```
 	// Tu solución
