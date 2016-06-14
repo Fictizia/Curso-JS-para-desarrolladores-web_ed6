@@ -231,8 +231,6 @@
   - Express
   - Angular
   - Node
-  - etc...
-- Etc...
 
 ### Bases de datos
 
