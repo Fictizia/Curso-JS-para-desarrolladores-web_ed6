@@ -352,7 +352,17 @@ FinProceso
 
 **7 -** Diseña un programa que al introducir un numero por teclado. Que nos diga si es positivo o negativo.
 ```
-	// Tu solución
+	 Proceso esPositivo
+		Escribir "Dame un número:"
+		Leer numero
+		
+		Si numero < 0 Entonces
+			Escribir numero, " es negativo"
+		Sino 
+			Escribir numero, " es positivo"
+		FinSi
+	
+	FinProceso 
 ```
 
 **8 -** Diseña un programa que al  introducir un numero por teclado. Que nos diga si es par o impar.
