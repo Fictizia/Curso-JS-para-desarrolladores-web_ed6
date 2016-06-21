@@ -367,7 +367,17 @@ FinProceso
 
 **8 -** Diseña un programa que al  introducir un numero por teclado. Que nos diga si es par o impar.
 ```
-	// Tu solución
+	Proceso esPar
+		Escribir "Dame un número:"
+		Leer numero
+		
+		Si numero %2 = 0 Entonces
+			Escribir numero, " es par"
+		Sino 
+			Escribir numero, " es impar"
+		FinSi
+	
+	FinProceso
 ```
 
 **9 -**  Diseña un programa para identificar a los clientes autorizados a entrar a nuestro sistema.
