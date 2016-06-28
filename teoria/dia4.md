@@ -80,7 +80,18 @@
 
 **5 -** Crea una tabla usando la consola para mostrar el nombre de tus compañeros y el puesto que ocupa en la clase.
 ```javascript
-    // Tu solución
+    var alumnos = [
+	     { nombre: "Gonzalo", puesto: 1 },
+	     { nombre: "Jesús", puesto: 2 },
+	     { nombre: "Javier", puesto: 3 },
+	     { nombre: "Víctor", puesto: 4 },
+	     { nombre: "Álvaro", puesto: 5 },
+	     { nombre: "Nuria", puesto: 6 },
+	     { nombre: "Raúl", puesto: 6 },
+	     { nombre: "Nuria", puesto: 6 }
+	 ];
+	 
+	 console.table(alumnos);
 ```
 
 
