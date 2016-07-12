@@ -13,7 +13,20 @@
 - Opcional: Ordena los números pares e impares en sus respectivos arrays
 
 ```javascript
-    // Tu solución
+	var arrayPares = [], arrayImpares = [];
+	
+	for (var i = 0; i<100; i++){
+		var random = Math.floor((Math.random() * 6) + 1)
+		if(random % 2 !== 0){
+			arrayImpares.push(random);
+		} else {
+			arrayPares.push(random);
+		}
+	}
+	
+	// Opcional
+	arrayPares = arrayPares.sort();
+	arrayImpares = arrayImpares.sort();
 ```
 
 **3 -** Vamos a gestionar la lista de asistentes de un evento. 
