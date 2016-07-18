@@ -25,7 +25,10 @@ var vendingMachine = {
     products : [
         { id: 1, name: 'Pepsi', stock: 20, max_units: 30, price: 10},
         { id: 2, name: 'Water', stock: 10, max_units: 15, price: 8},
-        { id: 3, name: 'Doritos', stock: 15, max_units: 10, price: 5}
+        { id: 3, name: 'Doritos', stock: 15, max_units: 10, price: 10},
+        { id: 4, name: 'Twix', stock: 10, max_units: 15, price: 12},
+        { id: 5, name: 'M&M\'s', stock: 10, max_units: 20, price: 15},
+        { id: 6, name: 'Skittles', stock: 10, max_units: 20, price: 10}
     ],
     actions: {
         login: function(user, pass){
@@ -33,25 +36,15 @@ var vendingMachine = {
                 userData = '',
                 status = 0;
             
-            //console.groupCollapsed('Login loop usuario: '+user);
             for (var i = 0; i < vendingMachine.users.length; i++){
-
-                //console.log('vuelta: '+i);
-                //console.log('comparando usuario introducido ('+user+') con objeto de usuarios: '+vendingMachine.users[i].username);
-                //console.log('comparando clave introducida ('+pass+') con objeto de usuarios: '+vendingMachine.users[i].password);
-
                 if(user === vendingMachine.users[i].username && pass === vendingMachine.users[i].password){
-                    //console.log('datos login correctos');
                     success = true;
                     userData = vendingMachine.users[i];
                     status = 1;
                     userData.status=status;
                     break;
-                }else{
-                    //console.log('datos login incorrectos');
                 }
             }
-            //console.groupEnd();
 
             return userData;
         },
@@ -155,7 +148,54 @@ var vendingMachine = {
             }
 
             return wallet;
-        }
+        },
+        checkProduct: function(idproduct){
+            var idproduct = idproduct,
+                match = false,
+                position = '',
+                stock = '',
+                price = '',
+                productName = '';
+                matchInfo = {};
+
+            for (var i = 0; i < vendingMachine.products.length; i++){
+
+                if ( vendingMachine.products[i].id === idproduct ){
+                    match = true;
+                    position = i;
+                    productName = vendingMachine.products[i].name,
+                    stock = vendingMachine.products[i].stock,
+                    price = vendingMachine.products[i].price;
+
+                    break;                   
+                }
+            }
+            
+            matchInfo = {match: match, name: productName, position: position, stock: stock, price: price};
+
+            return matchInfo; 
+        },
+        addProduct: function(){
+
+        },
+        buyProduct: function(){
+
+        },
+        deleteProduct: function(){
+
+        },
+        addPoints: function(){
+
+        },
+        subtractPoints: function(){
+
+        },
+        resetPoints: function(){
+
+        }, 
+        fetchStock: function(){
+
+        }                                          
     }
 
 };
@@ -178,6 +218,9 @@ action.userBalance('neo','ccc');//neo, tu saldo es de 100 puntos.
 
 console.log( action.deleteUser('jgarcia','zzz','tyrell') );//El usuario introducido no existe
 console.log( action.deleteUser('jgarcia','zzz','fSociety') );//Usuario fSociety eliminado
+
+console.log(action.checkProduct(6));//skittles object
+
 
 
 ```
