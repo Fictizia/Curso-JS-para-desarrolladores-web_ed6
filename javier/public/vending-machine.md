@@ -175,7 +175,36 @@ var vendingMachine = {
 
             return matchInfo; 
         },
-        addProduct: function(){
+        addProduct: function(adminUser, adminPass, productName, productStock, productMaxUnits, productPrice){
+            var login = vendingMachine.actions.login(adminUser,adminPass);
+            if ( login.role === 'admin' ){
+
+                var machineSlot = '',
+                    newProduct = {},
+                    msg = '';
+
+                for (var i = 0; i < vendingMachine.products.length; i++) {
+                    if (vendingMachine.products[i] === undefined) {
+                        machineSlot = i;
+                    }else{
+                        machineSlot = vendingMachine.products.length+1;
+                    }
+                }
+
+
+                for (var i = 0; i < vendingMachine.products.length; i++){  
+                    newProduct = { id: machineSlot, name: productName, stock: productStock, max_unit: productMaxUnits, price: productPrice};
+                    vendingMachine.products.splice(machineSlot, 0, newProduct);
+                    msg = 'Producto '+productName+' añadido.';                        
+                    break;
+                }
+
+                return msg;
+
+
+            }else{
+                console.log("No eres admin.");
+            }
 
         },
         buyProduct: function(){
@@ -206,7 +235,9 @@ var action = vendingMachine.actions,
     userInfo = vendingMachine.actions.login,
     role =  userInfo.role,
     username = userInfo.username,
-    wallet = userInfo.wallet;
+    wallet = userInfo.wallet,
+    productsList = vendingMachine.products;
+
 
 console.log( action.addUser('jgarcia','zzz','james','1234','client',100) );//Usuario james añadido ;)
 console.log( action.addUser('jgarcia','zzz','neo','1234','client',100) );//¡Usuario neo no añadido! neo, ya existe!
@@ -219,8 +250,8 @@ action.userBalance('neo','ccc');//neo, tu saldo es de 100 puntos.
 console.log( action.deleteUser('jgarcia','zzz','tyrell') );//El usuario introducido no existe
 console.log( action.deleteUser('jgarcia','zzz','fSociety') );//Usuario fSociety eliminado
 
-console.log(action.checkProduct(6));//skittles object
-
+console.log(action.checkProduct(6));//skittles
+console.log( action.addProduct('jgarcia','zzz','Oreo',20,30,10) );//{ id: 7, name: 'Oreo', stock: 20, max_units: 30, price: 10}
 
 
 ```
