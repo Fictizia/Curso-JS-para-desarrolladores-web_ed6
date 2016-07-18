@@ -29,45 +29,115 @@ var vendingMachine = {
     ],
     actions: {
         login: function(user, pass){
-            var userData = '',
+            var success = false,
+                userData = '',
                 status = 0;
-
+            
+            //console.groupCollapsed('Login loop usuario: '+user);
             for (var i = 0; i < vendingMachine.users.length; i++){
- 
-                /*
-                console.log('vuelta: '+i);
-                console.log('comparando usuario introducido ('+user+') con objeto de usuarios: '+vendingMachine.users[i].username);
-                console.log('comparando clave introducida ('+pass+') con objeto de usuarios: '+vendingMachine.users[i].password);
-                */
+
+                //console.log('vuelta: '+i);
+                //console.log('comparando usuario introducido ('+user+') con objeto de usuarios: '+vendingMachine.users[i].username);
+                //console.log('comparando clave introducida ('+pass+') con objeto de usuarios: '+vendingMachine.users[i].password);
 
                 if(user === vendingMachine.users[i].username && pass === vendingMachine.users[i].password){
+                    //console.log('datos login correctos');
+                    success = true;
                     userData = vendingMachine.users[i];
                     status = 1;
                     userData.status=status;
                     break;
+                }else{
+                    //console.log('datos login incorrectos');
                 }
-                       
             }
+            //console.groupEnd();
+
             return userData;
         },
-        addUser: function (username, password, role, wallet){
-            var newUser = {},
-                id = vendingMachine.users.length;
+        checkUser: function (user){
+            var match = false,
+                position = '',
+                matchInfo = {};
 
-            vendingMachine.users.push({ id: id, username: username, password: password, role: role, wallet: wallet});
-            console.log('Usuario '+username+' añadido ;)');
+            console.groupCollapsed('Comparación nuevo usuario '+user+' con lista de usuarios.');
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                console.log(user+' === '+vendingMachine.users[i].username+'?');
+                if (vendingMachine.users[i].username == user) {
+                    match = true;
+                    position = i;
+                    break;
+                }
+            }
+            console.info(user+' existe = '+match);
+            console.groupEnd();
+            
+            matchInfo = {match: match, position: position};
+
+            return matchInfo;                        
         },
+        addUser: function (loginName, loginPass, newUsername, newPass, newRole, newWallet){
+            var checkUser = vendingMachine.actions.checkUser(newUsername),
+                newUser = {},
+                id = vendingMachine.users.length,
+                msg = '';
+
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) && (vendingMachine.users[i].role === 'admin') ){
+                    console.log('Hola admin. Vamos a comprobar si existe '+newUsername+' antes de añadirlo a la lista.');
+
+                    if ( checkUser.match === true ){
+                        msg = '¡Usuario '+newUsername+' no añadido! '+newUsername+', ya existe!';
+                    }else{
+                        vendingMachine.users.push({ id: id, username: newUsername, password: newPass, role: newRole, wallet: newWallet});
+                        msg = 'Usuario '+newUsername+' añadido ;)';                        
+                    }
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
+        },
+        deleteUser: function (loginName, loginPass, user){
+            var checkUser = vendingMachine.actions.checkUser(user),
+                msg = '';
+
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) && (vendingMachine.users[i].role === 'admin') ){
+                    console.log('Hola admin. Vamos a comprobar si existe '+user+' antes de eliminarlo de la lista.');
+                    if ( checkUser.match === true ){
+                        vendingMachine.users.splice(checkUser.position,1);
+                        msg = 'Usuario '+user+' eliminado';
+                    }
+                    else{
+                        msg = 'El usuario introducido no existe';
+                    }                    
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
+        },        
         userBalance: function(user, pass){
             var verifyUser = vendingMachine.actions.login(user, pass),
-            	wallet = 0,
-            	msg = '';
+                wallet = 0,
+                msg = '';
 
             if ( typeof verifyUser !== 'undefined'){
                 console.log('Cuenta verificada con éxito.');  
                 var userData = vendingMachine.actions.login(user, pass),
                     wallet = userData.wallet;
 
-                switch(wallet) {
+                switch(wallet) {   
+                    case (wallet < 0):
+                        msg = 'Error.';
+                        break;                                   
                     case 0:
                         msg = 'Habla con el administrador para que te recargue más puntos.';
                         break;
@@ -75,10 +145,11 @@ var vendingMachine = {
                         msg = 'Deberías de ir pensando en recargar tus puntos antes de que sea tarde.';
                         break;
                     case (wallet >= 10):                            
-                        msg = 'Tienes puntos suficientes para seguir comprando en la máquina.';
+                        msg = 'Tienes puntos suficientes para seguir comprando en la máquina.';   
+                        break;                                                                                
                 }
 
-                console.log('Tu saldo es de '+wallet+' puntos.' + msg);
+                console.log(user+', tu saldo es de '+wallet+' puntos.' + msg);
             }else{
                 console.log('Datos incorrectos, debes introducir tu clave para ver tu saldo.');
             }
@@ -92,17 +163,21 @@ var vendingMachine = {
 //shorteners 
 var action = vendingMachine.actions,
     usersList = vendingMachine.users,
-	userInfo = vendingMachine.actions.login,
-	role =  userInfo.role,
-	username = userInfo.username,
-	wallet = userInfo.wallet;
+    userInfo = vendingMachine.actions.login,
+    role =  userInfo.role,
+    username = userInfo.username,
+    wallet = userInfo.wallet;
+
+console.log( action.addUser('jgarcia','zzz','james','1234','client',100) );//Usuario james añadido ;)
+console.log( action.addUser('jgarcia','zzz','neo','1234','client',100) );//¡Usuario neo no añadido! neo, ya existe!
 
 action.login('jgarcia','1234');//login ko
 action.login('neo','ccc');//login ok
 
-action.addUser('parker','1234','client',100);//user added
-usersList;//updated users list
+action.userBalance('neo','ccc');//neo, tu saldo es de 100 puntos.
 
-action.userBalance('neo','ccc');
+console.log( action.deleteUser('jgarcia','zzz','tyrell') );//El usuario introducido no existe
+console.log( action.deleteUser('jgarcia','zzz','fSociety') );//Usuario fSociety eliminado
+
 
 ```
