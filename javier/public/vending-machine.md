@@ -9,6 +9,7 @@ Script para gestionar por consola una máquina expendedora
 * Los usuarios disponen de unos puntos para gastar en la máquina que el departamento de personal asigna.
 * La maquina no concederá creditos, solo trabaja en base a los puntos disponibles.
 * Para agilizar la reposición de lo consumido... la máquina debe controlar el stock.
+* El usuario administrador debe poder gestionar productos (añadir, eliminar, control de precios y stock...) y también usuarios (alta, baja, puntos de usuaios...)
 
 ```javascript
 
@@ -410,7 +411,6 @@ console.log( action.subtractPoints('jgarcia','zzz', 'mrRobot', 50) );//Restados 
 console.log( action.resetPoints('jgarcia','zzz', 'mrRobot') );//Cartera del usuario mrRobot vaciada.
 
 console.log(action.buyProduct('mrRobot','aaa',4));//No dispones de puntos para realizar la compra.
-
 
 
 ```
