@@ -316,10 +316,11 @@ var vendingMachine = {
                                 updateWallet = wallet - price;
                                 wallet = updateWallet;
                                 vendingMachine.users[i].wallet = wallet;
-                                stock = stock - 1;
+                                vendingMachine.products[i].stock = stock - 1;
 
                                 console.log('Comprado '+productName+ '(Precio: '+price+' puntos)');
-                                console.log('Puntos restantes tras la compra: '+wallet)
+                                console.log('Puntos restantes tras la compra: '+wallet);
+                                console.log('Stock de '+productName+ 'en máquina actualizado: '+vendingMachine.products[i].stock);
                             }
                             if(stock <= 0){
                                 console.log('Producto '+productName+', agotado.');
@@ -411,6 +412,7 @@ console.log( action.subtractPoints('jgarcia','zzz', 'mrRobot', 50) );//Restados 
 console.log( action.resetPoints('jgarcia','zzz', 'mrRobot') );//Cartera del usuario mrRobot vaciada.
 
 console.log(action.buyProduct('mrRobot','aaa',4));//No dispones de puntos para realizar la compra.
+
 
 
 ```
