@@ -24,8 +24,8 @@ var vendingMachine = {
     ],
     products : [
         { id: 1, name: 'Pepsi', stock: 20, max_units: 30, price: 10},
-        { id: 2, name: 'Water', stock: 10, max_units: 15, price: 8},
-        { id: 3, name: 'Doritos', stock: 15, max_units: 10, price: 10},
+        { id: 2, name: 'Agua', stock: 10, max_units: 15, price: 8},
+        { id: 3, name: 'Doritos', stock: 5, max_units: 10, price: 10},
         { id: 4, name: 'Twix', stock: 10, max_units: 15, price: 12},
         { id: 5, name: 'M&M\'s', stock: 10, max_units: 20, price: 15},
         { id: 6, name: 'Skittles', stock: 10, max_units: 20, price: 10}
@@ -35,7 +35,7 @@ var vendingMachine = {
             var success = false,
                 userData = '',
                 status = 0;
-            
+
             for (var i = 0; i < vendingMachine.users.length; i++){
                 if(user === vendingMachine.users[i].username && pass === vendingMachine.users[i].password){
                     success = true;
@@ -64,7 +64,7 @@ var vendingMachine = {
             }
             console.info(user+' existe = '+match);
             console.groupEnd();
-            
+
             matchInfo = {match: match, position: position};
 
             return matchInfo;                        
@@ -170,7 +170,7 @@ var vendingMachine = {
                     break;                   
                 }
             }
-            
+
             matchInfo = {match: match, name: productName, position: position, stock: stock, price: price};
 
             return matchInfo; 
@@ -207,11 +207,81 @@ var vendingMachine = {
             }
 
         },
-        buyProduct: function(){
+        buyProduct: function (loginName, loginPass, idproduct){
+            var getProduct = vendingMachine.actions.checkProduct(idproduct),
+                wallet = '',
+                updateWallet =' ',
+                productName = '',
+                stock = '',
+                price = '',
+                msg = '';
 
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) ){
+                    console.log('Login correcto. Hola, '+loginName);
+
+                    wallet = vendingMachine.users[i].wallet;
+                    console.log('Puntos disponibles: '+wallet);
+
+                    for (var i = 0; i < vendingMachine.products.length; i++){
+
+                        if ( vendingMachine.products[i].id === idproduct ){
+                            
+                            productName = vendingMachine.products[i].name,
+                            stock = vendingMachine.products[i].stock,
+                            price = vendingMachine.products[i].price;                            
+
+                            if( (stock > 0) && (wallet >= price) ){
+                                updateWallet = wallet - price;
+                                wallet = updateWallet;
+
+                                stock = stock - 1;
+
+                                console.log('Comprado '+productName+ '(Precio: '+price+' puntos)');
+                                console.log('Puntos restantes tras la compra: '+wallet)
+                            }
+                            if(stock <= 0){
+                                console.log('Producto '+productName+', agotado.');
+                            }
+                            if(wallet < price){
+                                console.log('No dispones de puntos para realizar la compra.')
+                            }
+                            break;                   
+                        }
+                    }
+
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
         },
-        deleteProduct: function(){
+        deleteProduct: function (loginName, loginPass, idproduct){
+            var checkProduct = vendingMachine.actions.checkProduct(idproduct),
+                productName = checkProduct.name,
+                msg = '';
 
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) && (vendingMachine.users[i].role === 'admin') ){
+                    console.log('Hola admin. Vamos a comprobar si existe ese producto antes de eliminarlo de la máquina.');
+                    if ( checkProduct.match === true ){
+                        vendingMachine.products.splice(checkProduct.position,1);
+                        msg = 'Producto con el ID '+idproduct+' ('+productName+') eliminado';
+                    }
+                    else{
+                        msg = 'El producto introducido no existe';
+                    }                    
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
         },
         addPoints: function(){
 
@@ -222,8 +292,16 @@ var vendingMachine = {
         resetPoints: function(){
 
         }, 
-        fetchStock: function(){
+        fetchStock: function(idproduct){
+            var stock = '',
+                productInfo = {};
 
+            for (var i = 0; i < vendingMachine.products.length; i++){
+                if ( vendingMachine.products[i].id === idproduct ){        
+                    stock = vendingMachine.products[i].stock;                
+                }
+            }
+            return stock;
         }                                          
     }
 
@@ -252,6 +330,11 @@ console.log( action.deleteUser('jgarcia','zzz','fSociety') );//Usuario fSociety 
 
 console.log(action.checkProduct(6));//skittles
 console.log( action.addProduct('jgarcia','zzz','Oreo',20,30,10) );//{ id: 7, name: 'Oreo', stock: 20, max_units: 30, price: 10}
+
+console.log(action.buyProduct('mrRobot','aaa',3));//{ id: 3, name: 'doritos', stock: 4, max_units: 10, price: 10}
+
+console.log( action.deleteProduct('jgarcia','zzz', 2) );//producto con el ID 2(agua) eliminado
+
 
 
 ```
