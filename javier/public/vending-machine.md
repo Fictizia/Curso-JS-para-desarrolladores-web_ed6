@@ -170,9 +170,33 @@ var vendingMachine = {
 
             return msg;
         },
-        resetPoints: function(){
-            
-        }, 
+        resetPoints: function (loginName, loginPass, user){
+            var checkUser = vendingMachine.actions.checkUser(user),
+                wallet = '',
+                idUser = '',
+                msg = '';
+
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) && (vendingMachine.users[i].role === 'admin') ){
+                    if ( checkUser.match === true ){
+                        console.log('Hola admin. Se van a eliminat todos los puntos ('+vendingMachine.users[checkUser.position].wallet+') de la cartera del usuario '+user);
+                        idUser = checkUser.position;
+                        wallet = 0;
+                        vendingMachine.users[checkUser.position].wallet = wallet;
+                        msg = 'Cartera del usuario '+user+' vaciada.';
+                    }
+                    else{
+                        msg = 'El usuario introducido no existe';
+                    }                    
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
+        },
         userBalance: function(user, pass){
             var verifyUser = vendingMachine.actions.login(user, pass),
                 wallet = 0,
@@ -290,7 +314,7 @@ var vendingMachine = {
                             if( (stock > 0) && (wallet >= price) ){
                                 updateWallet = wallet - price;
                                 wallet = updateWallet;
-
+                                vendingMachine.users[i].wallet = wallet;
                                 stock = stock - 1;
 
                                 console.log('Comprado '+productName+ '(Precio: '+price+' puntos)');
@@ -383,6 +407,9 @@ console.log(action.buyProduct('mrRobot','aaa',3));//{ id: 3, name: 'doritos', st
 console.log( action.deleteProduct('jgarcia','zzz', 2) );//producto con el ID 2(agua) eliminado
 console.log( action.addPoints('jgarcia','zzz', 'mrRobot', 200) );//Añadidos 200 al usuario mrRobot. Total puntos en cartera: 300
 console.log( action.subtractPoints('jgarcia','zzz', 'mrRobot', 50) );//Restados 50 al usuario mrRobot. Total puntos en cartera: 150
+console.log( action.resetPoints('jgarcia','zzz', 'mrRobot') );//Cartera del usuario mrRobot vaciada.
+
+console.log(action.buyProduct('mrRobot','aaa',4));//No dispones de puntos para realizar la compra.
 
 
 
