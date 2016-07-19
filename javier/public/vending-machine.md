@@ -116,7 +116,40 @@ var vendingMachine = {
             }
 
             return msg;
-        },        
+        },    
+        addPoints: function (loginName, loginPass, user, addPoints){
+            var checkUser = vendingMachine.actions.checkUser(user),
+                wallet = '',
+                idUser = '',
+                msg = '';
+
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) && (vendingMachine.users[i].role === 'admin') ){
+                    console.log('Hola admin. Se van a añadir '+addPoints+' puntos al usuario '+user);
+                    if ( checkUser.match === true ){
+                        idUser = checkUser.position;
+                        wallet = vendingMachine.users[idUser].wallet+addPoints;
+                        msg = 'Añadidos '+addPoints+' al usuario '+user+'. Total puntos en cartera: '+wallet;
+                    }
+                    else{
+                        msg = 'El usuario introducido no existe';
+                    }                    
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
+
+        },
+        subtractPoints: function(){
+
+        },
+        resetPoints: function(){
+            
+        }, 
         userBalance: function(user, pass){
             var verifyUser = vendingMachine.actions.login(user, pass),
                 wallet = 0,
@@ -283,15 +316,6 @@ var vendingMachine = {
 
             return msg;
         },
-        addPoints: function(){
-
-        },
-        subtractPoints: function(){
-
-        },
-        resetPoints: function(){
-
-        }, 
         fetchStock: function(idproduct){
             var stock = '',
                 productInfo = {};
@@ -334,7 +358,7 @@ console.log( action.addProduct('jgarcia','zzz','Oreo',20,30,10) );//{ id: 7, nam
 console.log(action.buyProduct('mrRobot','aaa',3));//{ id: 3, name: 'doritos', stock: 4, max_units: 10, price: 10}
 
 console.log( action.deleteProduct('jgarcia','zzz', 2) );//producto con el ID 2(agua) eliminado
-
+console.log( action.addPoints('jgarcia','zzz', 'mrRobot', 200) );//Añadidos 200 al usuario mrRobot. Total puntos en cartera: 300
 
 
 ```
