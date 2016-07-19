@@ -144,8 +144,31 @@ var vendingMachine = {
             return msg;
 
         },
-        subtractPoints: function(){
+        subtractPoints: function (loginName, loginPass, user, subtractPoints){
+            var checkUser = vendingMachine.actions.checkUser(user),
+                wallet = '',
+                idUser = '',
+                msg = '';
 
+            for (var i = 0; i < vendingMachine.users.length; i++){
+                if( (loginName === vendingMachine.users[i].username) && (loginPass === vendingMachine.users[i].password) && (vendingMachine.users[i].role === 'admin') ){
+                    console.log('Hola admin. Se van a restar '+subtractPoints+' puntos al usuario '+user);
+                    if ( checkUser.match === true ){
+                        idUser = checkUser.position;
+                        wallet = vendingMachine.users[idUser].wallet+subtractPoints;
+                        msg = 'Restados '+subtractPoints+' al usuario '+user+'. Total puntos en cartera: '+wallet;
+                    }
+                    else{
+                        msg = 'El usuario introducido no existe';
+                    }                    
+                    break;
+                }
+                else{
+                    console.log("Login incorrecto.");
+                }
+            }
+
+            return msg;
         },
         resetPoints: function(){
             
@@ -359,6 +382,8 @@ console.log(action.buyProduct('mrRobot','aaa',3));//{ id: 3, name: 'doritos', st
 
 console.log( action.deleteProduct('jgarcia','zzz', 2) );//producto con el ID 2(agua) eliminado
 console.log( action.addPoints('jgarcia','zzz', 'mrRobot', 200) );//Añadidos 200 al usuario mrRobot. Total puntos en cartera: 300
+console.log( action.subtractPoints('jgarcia','zzz', 'mrRobot', 50) );//Restados 50 al usuario mrRobot. Total puntos en cartera: 150
+
 
 
 ```
