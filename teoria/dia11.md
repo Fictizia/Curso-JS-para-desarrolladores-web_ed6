@@ -276,7 +276,18 @@ var nodesArray = [].slice.call(document.querySelectorAll("div"));
 
 **1 -**  Diseña un script que sustituya todas las imágenes de las entradas de [Genbeta](http://www.genbeta.com/) por [imágenes dummy de gatitos](https://placekitten.com/).
 ```javascript
-	// Tu solución
+	var imagenes = document.querySelectorAll('.article-home-figure img');
+	var imagenesLog = [];
+	for(var i = 0; i < imagenes.length; i++){
+		var url = document.querySelectorAll('.article-home-figure img')[i].src;
+		var ancho = document.querySelectorAll('.article-home-figure img')[i].width;
+		var alto = document.querySelectorAll('.article-home-figure img')[i].height;
+		var sustituto = "http://lorempixel.com/"+ancho+"/"+alto+"/cats";
+		var datos = [url, ancho, alto, sustituto]
+		imagenesLog.push(datos);
+		document.querySelectorAll('.article-home-figure img')[i].src = sustituto;
+		document.querySelectorAll('.article-home-figure img')[i].srcset = sustituto +" "+ancho+"w", sustituto +" "+ancho+"w";
+	}
 ```
 
 **2 -** Diseña un script que agrupe todos los titulares, sus autores y categorias dentro de [Genbeta:dev](http://www.genbetadev.com/) y luego vacíe el html para cargar una lista hecha por nosotros con la información previamente recolectada.
