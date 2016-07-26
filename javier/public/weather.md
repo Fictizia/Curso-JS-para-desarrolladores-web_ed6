@@ -22,7 +22,7 @@ var app = {
 
     var lat = locateMe.latitude;
     var lon = locateMe.longitude;
-    
+
     var url = app.settings.apiurl+'&lat='+lat+'&lon='+lon;
 
     var dayNow, timenow, iconSrc, cod, clouds, latitude, longitude, humidity, pressure, temp, temp_max, temp_min, place, sunrise, sunset, weatherDesc, weatherId, windDeg, windSpeed;
@@ -43,7 +43,7 @@ var app = {
             console.log('cod: '+cod+'\nclouds: '+clouds+'\nlatitude: '+latitude+'\nlongitude: '+longitude+'\nhumidity: '+humidity+'\npressure: '+pressure+'\ntemp: '+temp+'\ntemp_max: '+temp_max+'\ntemp_min: '+temp_min+'\nplace: '+place+'\nsunrise: '+sunrise+'\nsunset: '+sunset+'\nweatherDesc: '+weatherDesc+'\nweatherId: '+weatherId+'\nwindSpeed: '+windSpeed+'\n');
             console.groupEnd();
 
-        
+
             //today weather data
             dayNow = new Date();
         timeNow = dayNow.toLocaleString('es-ES', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
@@ -54,7 +54,7 @@ var app = {
         var todayPlus48h = Math.round( new Date().setDate(new Date().getDate() + 2) / 1000);
         var todayPlus72h = Math.round( new Date().setDate(new Date().getDate() + 3) / 1000);
         var todayPlus96h = Math.round( new Date().setDate(new Date().getDate() + 4) / 1000);
-        
+
         for(i=0; i < data.list.length; i++){
           if( timestampSeconds < data.list[i].dt ){
             //console.log('now',timestampSeconds);
@@ -103,6 +103,13 @@ var app = {
             document.querySelector('.days li:nth-child(2) .maxtemp').innerHTML = maxtemp;
           }
         }       
+
+        /* 
+            Pendientes: - REFACTORIZAR -
+            Usar un bucle para en lugar de tener variables de cada día (todayPlus24h, todayPlus48h, todayPlus72h, todayPlus96h)
+            para los próximos 4 días pueda obtener los datos meteorológicos accediendo a los datos del objeto json cada 8 items.
+            (Cada 8 items ya que es cada 8 items cuando se produce el cambio de días)
+        */
 
         //data after tomorrow
         //console.log('after tomorrow: '+todayPlus48h);       
@@ -405,10 +412,10 @@ var app = {
               xmlHttp2nd.onreadystatechange = function() {
                   if (xmlHttp2nd.readyState === 4 && xmlHttp2nd.status >= 200 && xmlHttp2nd.status <= 400) {
                       var data = JSON.parse(xmlHttp2nd.responseText);
-  
+
                       location.latitude=data.latitude;
                       location.longitude=data.longitude;
-              
+
               console.groupCollapsed('Location data');
                       console.log(location);
               console.groupEnd(); 
