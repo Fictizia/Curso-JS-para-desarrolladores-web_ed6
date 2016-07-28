@@ -53,7 +53,7 @@ Teoría | Recursos
 [Clase 14](teoria/dia14.md) | [Clase 14](recursos/dia14.md)
 [Clase 15](teoria/dia15.md) | [Clase 15](recursos/dia15.md)
 
-**[Extra](extra.md)**
+**[Extra](teoria/extra.md)**
 
 Temario
 =================
