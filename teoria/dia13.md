@@ -530,7 +530,28 @@ Nota: http://openweathermap.org te será de gran ayuda, busca la solución al er
 3 - Jugando con [datos abiertos](http://datos.gob.es/), saquemos los detalles de todos los cuadros eléctricos de Gijón por consola.
 
 ```javascript
-    // Tu solución
+    function peticionAjax (url) {
+	  var xmlHttp = new XMLHttpRequest();
+	
+	            xmlHttp.onreadystatechange = function () {
+	
+	                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+	                    var datos = (JSON.parse(xmlHttp.responseText));
+                        console.log(datos)
+	                } else if (xmlHttp.readyState === 4 && xmlHttp.status === 404) {
+	                    console.error("ERROR! 404");
+	                    console.info(JSON.parse(xmlHttp.responseText));
+	                }
+	            };
+	
+	            xmlHttp.open( "GET", url, true );
+	            xmlHttp.send();
+	}
+    
+    
+    // Utilizamos un proxy como http://crossorigin.me para solucionar el problema de CORS	
+	peticionAjax("http://crossorigin.me/http://opendata.gijon.es/descargar.php?id=163&tipo=JSON");
+
 ```
 ```
 // Podemos encontrar errores en las respuestas.
