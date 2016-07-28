@@ -591,9 +591,7 @@ Nota: http://openweathermap.org te será de gran ayuda, busca la solución al er
 - Encuentra la lógica en el nombre de las imagenes de las cámaras de tráfico para poder usar un número aleatorio.
 - OpenWeatherMap admite parámetros adicionales para devolver los datos en [sistema decimal](http://openweathermap.org/forecast5#data) y en [español](http://openweathermap.org/forecast5#multi).
 
-```javascript
-    // Tu solución
-```
+**[Solución](../otros/buenos_dias_madrid/index.html)**
 
 **Concepto:**
 
