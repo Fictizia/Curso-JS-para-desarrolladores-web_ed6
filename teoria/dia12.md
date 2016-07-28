@@ -946,8 +946,6 @@ Todos los ejercicios deben seguir el mismo proceso:
 	- Utiliza una estructura de archivos acorde
 	- Utiliza el ninja theme.
 
-```javascript
-	// Tu solución
-```
+**[Solución](otros/test_completo/)**
 
 
