@@ -173,9 +173,7 @@ robot.masLento(); // Min alcanzado
 - Mira en detalle la [documentación oficial](http://developer.nytimes.com/docs)
 - Usa el *[Books API](http://developer.nytimes.com/docs/books_api/)*
 
-```javascript
-    // Tu solución
-```
+**[Solución](../otros/NYTimes_hardcover_fiction_today.html)**
 
 **Concepto:**
 
@@ -200,9 +198,7 @@ robot.masLento(); // Min alcanzado
 - Debes incluir el titulo y la posición que ocupa en la lista ( #1 titulo.... #2 titulo....)
 - Debes incluir el link para poder comprar el libro en amazon (debe abrirse en otra pestaña)
 
-```javascript
-    // Tu solución
-```
+**[Solución](../otros/NYTimes_best_sellers.html)**
 
 
 **Concepto:**
